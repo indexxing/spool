@@ -3,7 +3,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "8088:3000"
     volumes:
       - spool-data:/data
     environment:

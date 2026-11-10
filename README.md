@@ -18,7 +18,7 @@ It's for personal use: one person, on their own network.
 3. Set any variables from `.env.example` in the resource's Environment Variables tab. Coolify lists them from the compose file. All are optional.
 4. Deploy. The image builds for whichever architecture the server runs (arm64 on a Pi 5, or amd64).
 
-The compose file publishes port 3000 on the host, so Spool is at `http://<server-ip>:3000` on your LAN. If you'd rather go through Coolify's proxy with a domain, set the domain on the `spool` service to port 3000 and drop the `ports:` lines. Downloads and the database live in the `spool-data` volume, which Coolify keeps across redeploys.
+The compose file publishes port 8088 on the host, so Spool is at `http://<server-ip>:8088` on your LAN. If you'd rather go through Coolify's proxy with a domain, set the domain on the `spool` service to port 3000 and drop the `ports:` lines. Downloads and the database live in the `spool-data` volume, which Coolify keeps across redeploys.
 
 ## Deploy with plain Docker Compose
 
@@ -30,7 +30,7 @@ cp .env.example .env        # optional, then edit it
 docker compose up -d --build
 ```
 
-Open `http://<pi-hostname-or-ip>:3000`. To browse the downloaded files, run `docker compose exec spool ls /data/videos`.
+Open `http://<pi-hostname-or-ip>:8088`. To browse the downloaded files, run `docker compose exec spool ls /data/videos`.
 
 **Updating yt-dlp:** YouTube changes things often and yt-dlp keeps up. Spool runs `yt-dlp -U` every time it starts, so if downloads start failing, restart the container. Rebuilding the image also fetches the newest release.
 
@@ -58,7 +58,7 @@ At 1080p, expect very roughly 30 to 40 MB per minute of video. At 720p it's abou
 
 **Share sheet on iPhone (Shortcuts):** make a shortcut that receives URLs from the share sheet and runs "Get contents of URL":
 
-- URL: `http://<pi>:3000/api/videos`
+- URL: `http://<pi>:8088/api/videos`
 - Method: `POST`
 - Request body: Text, set to the Shortcut Input
 - Header (only if you set a password): `Authorization: Bearer <your password>`
@@ -66,7 +66,7 @@ At 1080p, expect very roughly 30 to 40 MB per minute of video. At 720p it's abou
 **curl:**
 
 ```sh
-curl -X POST http://pi:3000/api/videos -H 'content-type: text/plain' \
+curl -X POST http://pi:8088/api/videos -H 'content-type: text/plain' \
   --data 'https://youtu.be/dQw4w9WgXcQ https://youtu.be/jNQXAC9IVRw'
 ```
 
