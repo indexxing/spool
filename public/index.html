@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1012" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Spool" />
+  <title>Spool</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="login" class="login" hidden>
+    <form id="login-form" class="login-card">
+      <h1>Spool</h1>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required autofocus />
+      <button type="submit">Sign in</button>
+      <p id="login-error" class="error" hidden></p>
+    </form>
+  </div>
+
+  <main id="app" hidden>
+    <header class="top">
+      <div class="brand"><img src="/icon.svg" alt="" width="22" height="22" /> Spool</div>
+      <form id="add-form" class="add">
+        <textarea id="links" rows="1" placeholder="Paste YouTube links (one or many) and press Enter" spellcheck="false"></textarea>
+        <button type="submit">Add</button>
+      </form>
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </header>
+
+    <section class="stage">
+      <div class="player-wrap">
+        <video id="player" controls playsinline preload="metadata"></video>
+        <div id="player-empty" class="player-empty">
+          <p>Paste some links to start a queue.</p>
+          <p class="muted">They download on the Pi, then play here back to back.</p>
+        </div>
+      </div>
+      <div class="now">
+        <div class="now-text">
+          <h2 id="now-title">Nothing playing</h2>
+          <p id="now-sub" class="muted"></p>
+        </div>
+        <div class="now-actions">
+          <button id="btn-prev" class="ghost" title="Previous">Prev</button>
+          <button id="btn-next" class="ghost" title="Next (N)">Next</button>
+          <label class="toggle" title="Play the next video automatically">
+            <input id="autoplay" type="checkbox" checked /> Autoplay
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="list">
+      <div class="list-head">
+        <h3>Up next <span id="count" class="muted"></span></h3>
+      </div>
+      <ol id="queue" class="queue"></ol>
+      <p id="queue-empty" class="muted empty" hidden>Your queue is empty.</p>
+
+      <details id="watched-wrap" class="watched" hidden>
+        <summary>Watched <span id="watched-count" class="muted"></span></summary>
+        <div class="watched-actions"><button id="btn-clear" class="ghost small">Clear watched</button></div>
+        <ol id="watched" class="queue"></ol>
+      </details>
+    </section>
+
+    <footer class="foot muted">
+      <span id="foot-note"></span>
+      <a id="bookmarklet" href="#" title="Drag to your bookmarks bar, then click it on any YouTube page">+ Spool bookmarklet</a>
+    </footer>
+  </main>
+
+  <template id="item-tpl">
+    <li class="item" draggable="true">
+      <button class="thumb" data-act="play" aria-label="Play">
+        <img alt="" loading="lazy" />
+        <span class="dur"></span>
+      </button>
+      <div class="meta">
+        <p class="title"></p>
+        <p class="sub muted"></p>
+        <div class="bar" hidden><span></span></div>
+        <p class="err error" hidden></p>
+      </div>
+      <div class="acts">
+        <button class="ghost small" data-act="up" title="Move up">↑</button>
+        <button class="ghost small" data-act="down" title="Move down">↓</button>
+        <button class="ghost small" data-act="retry" title="Try again" hidden>Retry</button>
+        <button class="ghost small" data-act="unwatch" title="Put back in the queue" hidden>Watch again</button>
+        <button class="ghost small danger" data-act="remove" title="Remove">✕</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

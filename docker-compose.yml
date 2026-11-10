@@ -1,0 +1,22 @@
+services:
+  spool:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - spool-data:/data
+    environment:
+      # Optional, but set one if this is ever reachable beyond your home network.
+      SPOOL_PASSWORD: ${SPOOL_PASSWORD:-}
+      SPOOL_MAX_HEIGHT: ${SPOOL_MAX_HEIGHT:-1080}
+      SPOOL_CONCURRENCY: ${SPOOL_CONCURRENCY:-1}
+      SPOOL_DELETE_WATCHED_AFTER_HOURS: ${SPOOL_DELETE_WATCHED_AFTER_HOURS:-24}
+      SPOOL_SPONSORBLOCK: ${SPOOL_SPONSORBLOCK:-}
+      SPOOL_YTDLP_AUTOUPDATE: ${SPOOL_YTDLP_AUTOUPDATE:-1}
+      # e.g. /data/cookies.txt, after `docker compose cp cookies.txt spool:/data/`
+      SPOOL_COOKIES: ${SPOOL_COOKIES:-}
+      SPOOL_YTDLP_ARGS: ${SPOOL_YTDLP_ARGS:-}
+
+volumes:
+  spool-data:

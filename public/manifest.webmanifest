@@ -1,0 +1,9 @@
+{
+  "name": "Spool",
+  "short_name": "Spool",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1012",
+  "theme_color": "#0f1012",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
